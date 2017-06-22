@@ -1,0 +1,19 @@
+<launch>
+<!-- vim: set ft=xml noet : -->
+
+	<include file="$(find nautonomous_operation_action)/launch/action_client.launch"/>
+
+    <node pkg="rosauth" type="ros_mac_authentication" name="ros_mac_authentication" output="screen">
+        <param name="secret_file_location" value="/var/ssl/secret/nautonomous1.secret" />
+    </node>
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+        <arg name="port" value="9090" />
+        <arg name="ssl" value="true" />
+        <arg name="certfile" value="/var/ssl/ROS.crt" />
+        <arg name="keyfile" value="/var/ssl/ROS.key" />
+        <arg name="authenticate" value="true" />
+    </include>
+
+    <node name="ConnectionHandler" pkg="nautonomous_serverconnection_logger_server" type="ConnectionHandler.py" output="screen"/>
+
+</launch>
