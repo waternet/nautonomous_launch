@@ -27,4 +27,7 @@
 		<remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
 		<remap from="odom" to="$(arg odom_combined_topic)"/>
 	</node>
+
+	<node pkg="rosbag" type="record" name="rosbag_move_base" args="record -o $(arg rosbag_prefix_url)/navigation/move_base $(arg cmd_vel_topic) $(arg odom_combined_topic)" output="screen" if="$(arg rosbag_enabled)"/>
+
 </launch>

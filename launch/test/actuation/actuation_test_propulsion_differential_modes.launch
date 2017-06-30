@@ -5,14 +5,16 @@
     
 	<arg name="left_motor_topic" default="/actuation/propulsion/left"/>
 	<arg name="right_motor_topic" default="/actuation/propulsion/right"/>
+	<arg name="cmd_vel_topic" default="/navigation/propulsion/twist"/>
 
     <include file="$(find nautonomous_launch)/launch/test/actuation/actuation_test_propulsion_differential_template.launch">
 
 	</include>
 
 	<include file="$(find nautonomous_propulsion_publisher)/launch/differential_test_publisher.launch">
-		<arg name="left_motor_topic" default="left_motor_topic"/>
-		<arg name="right_motor_topic" default="right_motor_topic"/>
+		<arg name="left_motor_topic" value="$(arg left_motor_topic)"/>
+		<arg name="right_motor_topic" value="$(arg right_motor_topic)"/>
+		<arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
 
 		<arg name="propulsion_mode_index" value="$(arg propulsion_mode_index)"/>
 		<arg name="motor_propulsion_scalar" value="$(arg motor_propulsion_scalar)"/>
