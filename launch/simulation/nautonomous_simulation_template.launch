@@ -1,0 +1,14 @@
+<launch>
+
+	<arg name="operation_name" default="operation_name">
+
+	<include file="$(find nautonomous_launch)/launch/nautonomous.launch">
+		<arg name="simulate_group" value="true"/>
+		<arg name="webserver_group" value="false"/>
+	</include>
+
+	<include file="$(find nautonomous_mission_coordinator)/launch/mission_coordinator_client.launch">
+		<arg name="operation_name" value="$(arg operation_name)"/>
+	</include>
+
+</launch>

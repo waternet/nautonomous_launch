@@ -1,0 +1,9 @@
+<launch>
+
+    <arg name="actuation_serial_available_param" default="true"/>
+
+    <include file="$(find nautonomous_launch)/launch/test/actuation/actuation_test_template.launch">
+        <arg name="actuation_serial_available_param" value="$(arg actuation_serial_available_param)"/>
+    </include>
+
+</launch>

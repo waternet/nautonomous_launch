@@ -1,0 +1,7 @@
+<launch>
+
+    <include file="$(find nautonomous_launch)/launch/test/actuation/actuation_test_propulsion_differential_template.launch"/>
+
+    <include file="$(find nautonomous_propulsion_differential)/launch/twist_to_motors.launch"/>
+
+</launch>
