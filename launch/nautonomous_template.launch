@@ -193,11 +193,11 @@
 			<!--GPS-->
 			<group if="$(arg gps_group)">
 				<include file="$(find ublox_gps)/launch/ublox_gps.launch">
-					<arg name="rosbag_enabled" 			value="$(arg rosbag_enabled)"/>
+					<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
 					<arg name="rosbag_prefix_url"		value="$(arg rosbag_prefix_url)"/>
 					
-					<arg name="gps_fix_topic" 			value="$(arg gps_fix_topic)"/>
-    				<arg name="gps_fix_velocity_topic" 	value="$(arg gps_fix_velocity_topic)"/>
+					<arg name="gps_fix_topic" 		value="$(arg gps_fix_topic)"/>
+    					<arg name="gps_fix_velocity_topic" 	value="$(arg gps_fix_velocity_topic)"/>
 				</include>
 				<include file="$(find nautonomous_pose_utm)/launch/utm_adapter.launch">
 					<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
