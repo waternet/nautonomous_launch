@@ -1,7 +1,7 @@
 <launch>
 
 	<include file="$(find nautonomous_launch)/launch/simulation/nautonomous_simulation_template.launch">
-		<arg name="operation_name" value="canals"/>
+		<arg name="operation_name_param" value="canals"/>
 	</include>
 
 </launch>

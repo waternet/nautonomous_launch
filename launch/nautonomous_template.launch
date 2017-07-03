@@ -81,7 +81,7 @@
 	<arg name="actuation_serial_available_param" default="true"/>
 	<arg name="propulsion_differential_mode_param" default="false"/>
 
-
+	<arg name="operation_name_param" default="operation_name_param"/>	
 
 	<group if="$(arg simulate_group)">
 
@@ -124,7 +124,7 @@
 				<include file="$(find nautonomous_mission_coordinator)/launch/mission_coordinator_client.launch">
 					<arg name="rosbag_enabled" 						value="$(arg rosbag_enabled)"/>
 					<arg name="rosbag_prefix_url"					value="$(arg rosbag_prefix_url)"/>
-
+					<arg name="operation_name_param"				value="$(arg operation_name_param)"/>
 					<arg name="coordinator_mission_action_server" 	value="$(arg coordinator_mission_action_server)"/>
 				</include>	
 			</group>
