@@ -83,6 +83,8 @@
 
 	<arg name="operation_name_param" default="operation_name_param"/>	
 
+	<arg name="negate_image_param" default="false"/>
+
 	<group if="$(arg simulate_group)">
 
 		<include file="$(find nautonomous_pose_simulator)/launch/nautonomous_propulsion_simulator.launch">
@@ -147,7 +149,7 @@
 			<include file="$(find nautonomous_map_cropper)/launch/passive_map_cropper.launch">
 				<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
 				<arg name="rosbag_prefix_url"	value="$(arg rosbag_prefix_url)"/>
-
+				<arg name="negate_image_param" value="$(arg negate_image_param)"/>
 				<arg name="crop_service" 	value="$(arg crop_service)"/>
 			</include>
 
