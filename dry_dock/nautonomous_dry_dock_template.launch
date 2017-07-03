@@ -1,9 +1,0 @@
-<launch>
-
-	<include file="$(find nautonomous_launch)/launch/nautonomous_template.launch">
-		<arg name="routing_group"  			value="false"/>
-		<arg name="operation_name_param"  	value="coenhaven_dry_dock"/>
-		<arg name="webserver_group" value="false"/>
-	</include>
-
-</launch>
