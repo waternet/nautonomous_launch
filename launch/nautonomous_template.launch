@@ -231,22 +231,22 @@
 				<arg name="utm_fix_topic" 		value="$(arg utm_fix_topic)"/>
 				<arg name="utm_odom_topic" 		value="$(arg utm_odom_topic)"/>
 			</include> 
-			<include file="$(find nautonomous_pose_ekf)/launch/nautonomous_pose_ekf.launch">
-				<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
-				<arg name="rosbag_prefix_url"	value="$(arg rosbag_prefix_url)"/>
+			<include file="$(find nautonomous_launch)/launch/pose/robot_pose_ekf.launch">
+				<!--arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
+				<arg name="rosbag_prefix_url"	value="$(arg rosbag_prefix_url)"/-->
 
 				<arg name="imu_topic" 			value="$(arg imu_topic)"/>
 				<arg name="utm_odom_topic" 		value="$(arg utm_odom_topic)" />
-				<arg name="odom_combined_topic" value="$(arg odom_combined_topic)"/>   
+				<!--arg name="odom_combined_topic" value="$(arg odom_combined_topic)"/-->   
 			</include>
 		</group>
 		<group if="$(arg tf_group)">
-			<include file="$(find nautonomous_tf)/launch/nautonomous_tf.launch">
-				<arg name="rosbag_enabled" default="$(arg rosbag_enabled)"/>
-				<arg name="rosbag_prefix_url" default="$(arg rosbag_prefix_url)"/>
+			<include file="$(find nautonomous_tf)/launch/nautonomous_tf_static.launch">
+				<arg name="rosbag_enabled" value="$(arg rosbag_enabled)"/>
+				<arg name="rosbag_prefix_url" value="$(arg rosbag_prefix_url)"/>
 				
-				<arg name="imu_topic" default="$(arg imu_topic)"/>
-				<arg name="odom_combined_topic" default="$(arg utm_odom_topic)"/>
+				<arg name="imu_topic" value="$(arg imu_topic)"/>
+				<arg name="utm_odom_topic" value="$(arg utm_odom_topic)"/>
 			</include>
 		</group>
 			

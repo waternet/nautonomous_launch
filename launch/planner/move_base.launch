@@ -28,8 +28,9 @@
 		<rosparam file="$(find nautonomous_configuration)/config/planner/base_local_planner_params.yaml" command="load" />
 		<param name="controller_frequency" value="10.0"/>
 		<remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
-		<remap from="odom" to="$(arg odom_combined_topic)"/>
+		<!--remap from="odom" to="$(arg odom_combined_topic)"/-->
 		<remap from="map" to="$(arg map_topic)"/>
+		<remap from="odom" to="odom_combined"/>
 	</node>
 
 	<node pkg="rosbag" type="record" name="rosbag_move_base" args="record -o $(arg rosbag_prefix_url)/navigation/move_base $(arg cmd_vel_topic) $(arg odom_combined_topic)" output="screen" if="$(arg rosbag_enabled)"/>
