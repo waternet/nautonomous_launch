@@ -8,6 +8,8 @@
 	<arg name="cmd_vel_topic" default="cmd_vel_topic"/>
 	<arg name="odom_combined_topic" default="odom_combined_topic"/>
 
+	<arg name="map_topic" default="map_topic"/>
+
 	<node pkg="costmap_2d" type="costmap_2d_markers" name="voxel_visualizer" output="screen">
 		<remap from="voxel_grid" to="costmap/voxel_grid"/>
 	</node>
@@ -15,6 +17,7 @@
 	<!-- Run the costmap node -->
 	<node name="costmap_node" pkg="costmap_2d" type="costmap_2d_node" output="screen" >
 		<rosparam file="$(find nautonomous_configuration)/config/costmap/test_config_costmap.yaml" command="load" ns="costmap" />
+		<remap from="map" to="$(arg map_topic)"/>
 	</node>
 
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
@@ -26,6 +29,7 @@
 		<param name="controller_frequency" value="10.0"/>
 		<remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
 		<remap from="odom" to="$(arg odom_combined_topic)"/>
+		<remap from="map" to="$(arg map_topic)"/>
 	</node>
 
 	<node pkg="rosbag" type="record" name="rosbag_move_base" args="record -o $(arg rosbag_prefix_url)/navigation/move_base $(arg cmd_vel_topic) $(arg odom_combined_topic)" output="screen" if="$(arg rosbag_enabled)"/>

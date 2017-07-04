@@ -7,8 +7,8 @@
         
         <arg name="sensors_group" value="true"/>
         
-        <arg name="gps_group" default="$(arg gps_group)"/>
-        <arg name="imu_group" default="$(arg imu_group)"/>
+        <arg name="gps_group" value="$(arg gps_group)"/>
+        <arg name="imu_group" value="$(arg imu_group)"/>
 
 	</include>
 

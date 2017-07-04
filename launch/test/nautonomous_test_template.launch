@@ -5,19 +5,23 @@
 
     <arg name="actuation_group" default="false"/>
     <arg name="actuation_serial_available_param" default="true"/>
-	<arg name="propulsion_differential_mode_param" default="false"/>
+    <arg name="propulsion_differential_mode_param" default="false"/>
 
     <arg name="state_group" default="false"/>
-	<arg name="odom_group" default="false"/>
-	<arg name="tf_group" default="false"/>
+    <arg name="odom_group" default="false"/>
+    <arg name="tf_group" default="false"/>
 
-    <arg name="navigation_group" value="false"/> 
-    <arg name="coordinator_group" value="false"/> 
-    <arg name="map_group" value="false"/>
-    <arg name="routing_group" value="false"/>
-    <arg name="navigate_group" value="false"/> 
+    <arg name="navigation_group" default="false"/> 
+    <arg name="coordinator_group" default="false"/> 
+    <arg name="map_group" default="false"/>
+    <arg name="routing_group" default="false"/>
+    <arg name="navigate_group" default="false"/> 
 
-    <arg name="webserver_group" value="false"/>
+    <arg name="webserver_group" default="false"/>
+
+    <arg name="operation_name_param" default="coenhaven_dry_dock"/>
+
+    <arg name="coordinate_simulate_group" default="false"/>
     
 
     <include file="$(find nautonomous_launch)/launch/nautonomous_template.launch">
@@ -36,11 +40,14 @@
 
         <arg name="navigation_group" value="$(arg navigation_group)"/> 
         <arg name="coordinator_group" value="$(arg coordinator_group)"/> 
+	<arg name="coordinate_simulate_group" value="$(arg coordinate_simulate_group)"/>
         <arg name="map_group" value="$(arg map_group)"/>
         <arg name="routing_group" value="$(arg routing_group)"/>
         <arg name="navigate_group" value="$(arg navigate_group)"/> 
         
         <arg name="webserver_group" value="$(arg webserver_group)"/>
+	
+	<arg name="operation_name_param" value="$(arg operation_name_param)"/>
 
-	</include>
+     </include>
 </launch>

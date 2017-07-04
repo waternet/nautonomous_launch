@@ -15,7 +15,8 @@
 
 	<!-- navigation -->
 	<arg name="navigation_group" default="true"/>
-	<arg name="coordinator_group" default="true"/> 
+	<arg name="coordinator_group" default="true"/>
+	<arg name="coordinate_simulate_group" default="false"/> 
 	<arg name="routing_group" default="true"/>
 	<arg name="map_group" default="true"/>
 	<arg name="navigate_group" default="true"/> 
@@ -122,7 +123,7 @@
 				<arg name="coordinator_mission_action_server" 	value="$(arg coordinator_mission_action_server)"/>
 			</include> 
 
-			<group if="$(arg simulate_group)">
+			<group if="$(arg coordinate_simulate_group)">
 				<include file="$(find nautonomous_mission_coordinator)/launch/mission_coordinator_client.launch">
 					<arg name="rosbag_enabled" 						value="$(arg rosbag_enabled)"/>
 					<arg name="rosbag_prefix_url"					value="$(arg rosbag_prefix_url)"/>
@@ -174,6 +175,7 @@
 
 				<arg name="cmd_vel_topic" 			value="$(arg cmd_vel_topic)"/>
 				<arg name="odom_combined_topic" 	value="$(arg odom_combined_topic)"/>
+				<arg name="map_topic" 			value="$(arg map_topic)"/>
 			</include>
 
 		</group>
@@ -187,86 +189,84 @@
 
 	</group-->
 
-	<group unless="$(arg simulate_group)">
-		<!--Sensors-->
-		<group if="$(arg sensors_group)">
-			<!--GPS-->
-			<group if="$(arg gps_group)">
-				<include file="$(find ublox_gps)/launch/ublox_gps.launch">
-					<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
-					<arg name="rosbag_prefix_url"		value="$(arg rosbag_prefix_url)"/>
-					
-					<arg name="gps_fix_topic" 		value="$(arg gps_fix_topic)"/>
-    					<arg name="gps_fix_velocity_topic" 	value="$(arg gps_fix_velocity_topic)"/>
-				</include>
-				<include file="$(find nautonomous_pose_utm)/launch/utm_adapter.launch">
-					<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
-					<arg name="rosbag_prefix_url"	value="$(arg rosbag_prefix_url)"/>
-					
-					<arg name="gps_fix_topic" 		value="$(arg gps_fix_topic)"/>
-					<arg name="utm_fix_topic" 		value="$(arg utm_fix_topic)"/>
-					<arg name="debug_point_topic" 	value="$(arg debug_point_topic)"/>
-				</include> 
-			</group>
-			<!--IMU-->
-			<group if="$(arg imu_group)">
-				<include file="$(find nautonomous_sensor_imu_razor)/launch/razor_pub.launch">
-					<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
-					<arg name="rosbag_prefix_url"	value="$(arg rosbag_prefix_url)"/>
-
-					<arg name="imu_topic" 			value="$(arg imu_topic)" />
-				</include>
-			</group>
-		</group>
-
-		<!--State-->
-		<group if="$(arg state_group)">
-			<!--Odom and pose-->
-			<group if="$(arg odom_group)">
-				<include file="$(find nautonomous_pose_odom)/launch/utm_pose_odom.launch">
-					<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
-					<arg name="rosbag_prefix_url"	value="$(arg rosbag_prefix_url)"/>
-
-					<arg name="utm_fix_topic" 		value="$(arg utm_fix_topic)"/>
-					<arg name="utm_odom_topic" 		value="$(arg utm_odom_topic)"/>
-				</include> 
-				<include file="$(find nautonomous_pose_ekf)/launch/nautonomous_pose_ekf.launch">
-					<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
-					<arg name="rosbag_prefix_url"	value="$(arg rosbag_prefix_url)"/>
-
-					<arg name="imu_topic" 			value="$(arg imu_topic)"/>
-					<arg name="utm_odom_topic" 		value="$(arg utm_odom_topic)" />
-					<arg name="odom_combined_topic" value="$(arg odom_combined_topic)"/>   
-				</include>
-			</group>
-			<group if="$(arg tf_group)">
-				<include file="$(find nautonomous_tf)/launch/nautonomous_tf.launch">
-					<arg name="rosbag_enabled" default="$(arg rosbag_enabled)"/>
-					<arg name="rosbag_prefix_url" default="$(arg rosbag_prefix_url)"/>
-					
-					<arg name="imu_topic" default="$(arg imu_topic)"/>
-					<arg name="odom_combined_topic" default="$(arg odom_combined_topic)"/>
-				</include>
-			</group>
+	<!--Sensors-->
+	<group if="$(arg sensors_group)">
+		<!--GPS-->
+		<group if="$(arg gps_group)">
+			<include file="$(find ublox_gps)/launch/ublox_gps.launch">
+				<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
+				<arg name="rosbag_prefix_url"		value="$(arg rosbag_prefix_url)"/>
 				
+				<arg name="gps_fix_topic" 		value="$(arg gps_fix_topic)"/>
+				<arg name="gps_fix_velocity_topic" 	value="$(arg gps_fix_velocity_topic)"/>
+			</include>
+			<include file="$(find nautonomous_pose_utm)/launch/utm_adapter.launch">
+				<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
+				<arg name="rosbag_prefix_url"	value="$(arg rosbag_prefix_url)"/>
+				
+				<arg name="gps_fix_topic" 		value="$(arg gps_fix_topic)"/>
+				<arg name="utm_fix_topic" 		value="$(arg utm_fix_topic)"/>
+				<arg name="debug_point_topic" 	value="$(arg debug_point_topic)"/>
+			</include> 
 		</group>
-		<!--Actuation-->
-		<group if="$(arg actuation_group)">
-			<!--Sabertooth-->
-			<include file="$(find nautonomous_actuation_propulsion_sabertooth)/launch/sabertooth_propulsion_actuation.launch">
-				<arg name="rosbag_enabled" 						value="$(arg rosbag_enabled)"/>
-				<arg name="rosbag_prefix_url"					value="$(arg rosbag_prefix_url)"/>
-			
-				<arg name="actuation_serial_available_param" 	value="$(arg actuation_serial_available_param)"/>
-				<arg name="propulsion_differential_mode_param" 	value="$(arg propulsion_differential_mode_param)"/>
+		<!--IMU-->
+		<group if="$(arg imu_group)">
+			<include file="$(find nautonomous_sensor_imu_razor)/launch/razor_pub.launch">
+				<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
+				<arg name="rosbag_prefix_url"	value="$(arg rosbag_prefix_url)"/>
 
-				<arg name="left_motor_topic" 					value="$(arg left_motor_topic)"/>
-				<arg name="right_motor_topic" 					value="$(arg right_motor_topic)"/>
-				<arg name="cmd_vel_topic" 						value="$(arg cmd_vel_topic)"/>
-
-				<arg name="actuation_watchdog_topic" 			value="$(arg actuation_watchdog_topic)"/>
+				<arg name="imu_topic" 			value="$(arg imu_topic)" />
 			</include>
 		</group>
+	</group>
+
+	<!--State-->
+	<group if="$(arg state_group)">
+		<!--Odom and pose-->
+		<group if="$(arg odom_group)">
+			<include file="$(find nautonomous_pose_odom)/launch/utm_pose_odom.launch">
+				<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
+				<arg name="rosbag_prefix_url"	value="$(arg rosbag_prefix_url)"/>
+
+				<arg name="utm_fix_topic" 		value="$(arg utm_fix_topic)"/>
+				<arg name="utm_odom_topic" 		value="$(arg utm_odom_topic)"/>
+			</include> 
+			<include file="$(find nautonomous_pose_ekf)/launch/nautonomous_pose_ekf.launch">
+				<arg name="rosbag_enabled" 		value="$(arg rosbag_enabled)"/>
+				<arg name="rosbag_prefix_url"	value="$(arg rosbag_prefix_url)"/>
+
+				<arg name="imu_topic" 			value="$(arg imu_topic)"/>
+				<arg name="utm_odom_topic" 		value="$(arg utm_odom_topic)" />
+				<arg name="odom_combined_topic" value="$(arg odom_combined_topic)"/>   
+			</include>
+		</group>
+		<group if="$(arg tf_group)">
+			<include file="$(find nautonomous_tf)/launch/nautonomous_tf.launch">
+				<arg name="rosbag_enabled" default="$(arg rosbag_enabled)"/>
+				<arg name="rosbag_prefix_url" default="$(arg rosbag_prefix_url)"/>
+				
+				<arg name="imu_topic" default="$(arg imu_topic)"/>
+				<arg name="odom_combined_topic" default="$(arg utm_odom_topic)"/>
+			</include>
+		</group>
+			
+	</group>
+	<!--Actuation-->
+	<group if="$(arg actuation_group)">
+		<!--Sabertooth-->
+		<include file="$(find nautonomous_actuation_propulsion_sabertooth)/launch/sabertooth_propulsion_actuation.launch">
+			<arg name="rosbag_enabled" 						value="$(arg rosbag_enabled)"/>
+			<arg name="rosbag_prefix_url"					value="$(arg rosbag_prefix_url)"/>
+		
+			<arg name="actuation_serial_available_param" 	value="$(arg actuation_serial_available_param)"/>
+			<arg name="propulsion_differential_mode_param" 	value="$(arg propulsion_differential_mode_param)"/>
+
+			<arg name="left_motor_topic" 					value="$(arg left_motor_topic)"/>
+			<arg name="right_motor_topic" 					value="$(arg right_motor_topic)"/>
+			<arg name="cmd_vel_topic" 						value="$(arg cmd_vel_topic)"/>
+
+			<arg name="actuation_watchdog_topic" 			value="$(arg actuation_watchdog_topic)"/>
+		</include>
 	</group>
 
 	<group if="$(arg webserver_group)">
