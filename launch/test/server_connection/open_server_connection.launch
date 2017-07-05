@@ -1,19 +1,23 @@
-<launch>
-<!-- vim: set ft=xml noet : -->
+<launch>   
 
-	<include file="$(find nautonomous_operation_action)/launch/action_client.launch"/>
+    <arg name="navigation_group" default="true"/>
+    <arg name="coordinator_group" default="true"/> 
+    <arg name="map_group" default="true"/>
+    <arg name="routing_group" default="true"/>
+    <arg name="navigate_group" default="true"/>
 
-    <node pkg="rosauth" type="ros_mac_authentication" name="ros_mac_authentication" output="screen">
-        <param name="secret_file_location" value="/var/ssl/secret/nautonomous1.secret" />
-    </node>
-    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
-        <arg name="port" value="9090" />
-        <arg name="ssl" value="true" />
-        <arg name="certfile" value="/var/ssl/ROS.crt" />
-        <arg name="keyfile" value="/var/ssl/ROS.key" />
-        <arg name="authenticate" value="true" />
-    </include>
+    <arg name="webserver_group" default="true"/>
 
-    <node name="ConnectionHandler" pkg="nautonomous_serverconnection_logger_server" type="ConnectionHandler.py" output="screen"/>
+    <include file="$(find nautonomous_launch)/launch/test/nautonomous_test_template.launch">
+        
+        <arg name="navigation_group" value="$(arg navigation_group)"/>
+        <arg name="coordinator_group" value="$(arg coordinator_group)"/> 
+        <arg name="map_group" value="$(arg map_group)"/>
+        <arg name="routing_group" value="$(arg routing_group)"/>
+        <arg name="navigate_group" value="$(arg navigate_group)"/>
+
+        <arg name="webserver_group" value="$(arg webserver_group)"/>
+
+	</include>
 
 </launch>

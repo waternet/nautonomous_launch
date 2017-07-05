@@ -1,4 +1,8 @@
 <launch>
+
+	<arg name="rosbag_enabled" default="false"/>
+	<arg name="rosbag_prefix_url" default="/tmp"/>
+	
 	<node name="depthimage_to_laserscan" pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" output="screen">
 		<param name="scan_height" value="5" />
 		<param name="scan_time" value="0.033" />
@@ -6,9 +10,9 @@
 		<param name="range_max" value="50.0" />
 		<param name="output_frame_id" value="camera_link" />
 
-		<remap from="image" to="/camera/depth/image_rect_color"/>
-		<remap from="camera_info" to="/camera/depth/camera_info"/>
-		<remap from="scan" to="base_scan"/>
+		<remap from="image" to="/sensor/camera/depth/image_rect_color"/>
+		<remap from="camera_info" to="/sensor/camera/depth/camera_info"/>
+		<remap from="scan" to="/sensor/lidar/scan"/>
 	</node>
 </launch>
 
