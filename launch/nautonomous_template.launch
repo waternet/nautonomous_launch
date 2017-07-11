@@ -25,6 +25,7 @@
 	<arg name="sensors_group" default="true"/>
 	<arg name="gps_group" default="true"/>
 	<arg name="imu_group" default="true"/>
+	<arg name="scan_group" default="true"/>
 	<arg name="camera_group" default="false"/>
 
 	<!-- actuation -->
@@ -83,6 +84,7 @@
 	<arg name="propulsion_differential_mode_param" default="false"/>
 
 	<arg name="operation_name_param" default="operation_name_param"/>	
+	<arg name="test_map_param" default="false"/>
 
 	<arg name="negate_image_param" default="false"/>
 
@@ -100,7 +102,6 @@
 
 			<arg name="odom_combined_topic" 	value="$(arg odom_combined_topic)"/>
 		</include>	
-		<node name="rviz_visualizer" pkg="rviz" type="rviz" args="-d $(find nautonomous_configuration)/config/rviz/nautonomous_default.rviz"/>
 
 	</group>
 
@@ -152,6 +153,7 @@
 				<arg name="rosbag_prefix_url"	value="$(arg rosbag_prefix_url)"/>
 				<arg name="negate_image_param" value="$(arg negate_image_param)"/>
 				<arg name="crop_service" 	value="$(arg crop_service)"/>
+				<arg name="test_map_param" default="$(arg test_map_param)"/>
 			</include>
 
 			<include file="$(find nautonomous_map_server)/launch/nautonomous_map_server.launch" >
@@ -163,6 +165,8 @@
 				<arg name="map_topic" 			value="$(arg map_topic)"/>
 
 				<arg name="load_service" 		value="$(arg load_service)"/>
+
+				
 			</include>
 
 		</group>
@@ -218,6 +222,15 @@
 				<arg name="imu_topic" 			value="$(arg imu_topic)" />
 			</include>
 		</group>
+		<!-- SCAN -->
+		<group if="$(arg scan_group)">
+			<include file="$(find nautonomous_launch)/launch/scan/velodyne.launch">
+				
+			</include>
+			<include file="$(find nautonomous_launch)/launch/scan/depthtolaser.launch">
+
+			</include>
+		</group>
 	</group>
 
 	<!--State-->
@@ -242,15 +255,12 @@
 		</group>
 		<group if="$(arg tf_group)">
 			<include file="$(find nautonomous_tf)/launch/nautonomous_tf_static.launch">
-				<arg name="rosbag_enabled" value="$(arg rosbag_enabled)"/>
-				<arg name="rosbag_prefix_url" value="$(arg rosbag_prefix_url)"/>
-				
-				<arg name="imu_topic" value="$(arg imu_topic)"/>
-				<arg name="utm_odom_topic" value="$(arg utm_odom_topic)"/>
+
 			</include>
 		</group>
 			
 	</group>
+
 	<!--Actuation-->
 	<group if="$(arg actuation_group)">
 		<!--Sabertooth-->

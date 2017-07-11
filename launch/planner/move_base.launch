@@ -10,15 +10,9 @@
 
 	<arg name="map_topic" default="map_topic"/>
 
-	<node pkg="costmap_2d" type="costmap_2d_markers" name="voxel_visualizer" output="screen">
-		<remap from="voxel_grid" to="costmap/voxel_grid"/>
-	</node>
+	<include file="$(find nautonomous_launch)/launch/costmap/costmap_2d.launch">
 
-	<!-- Run the costmap node -->
-	<node name="costmap_node" pkg="costmap_2d" type="costmap_2d_node" output="screen" >
-		<rosparam file="$(find nautonomous_configuration)/config/costmap/test_config_costmap.yaml" command="load" ns="costmap" />
-		<remap from="map" to="$(arg map_topic)"/>
-	</node>
+	</include>
 
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
 		<rosparam file="$(find nautonomous_configuration)/config/costmap/common_costmap_params.yaml" command="load" ns="global_costmap" />
