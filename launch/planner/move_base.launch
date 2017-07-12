@@ -10,8 +10,8 @@
 
 	<arg name="map_topic" default="map_topic"/>
 
-	<include file="$(find nautonomous_launch)/launch/costmap/costmap_2d.launch">
-
+	<include file="$(find nautonomous_launch)/launch/costmap/costmap_2d.launch">	
+		<arg name="map_topic" value="$(arg map_topic)"/>
 	</include>
 
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
@@ -20,11 +20,15 @@
 		<rosparam file="$(find nautonomous_configuration)/config/costmap/local_costmap_params.yaml" command="load" />
 		<rosparam file="$(find nautonomous_configuration)/config/costmap/global_costmap_params.yaml" command="load" />
 		<rosparam file="$(find nautonomous_configuration)/config/planner/base_local_planner_params.yaml" command="load" />
-		<param name="controller_frequency" value="10.0"/>
+		
+		<param name="recovery_behavior_enabled" value="false"/>
+		<param name="planner_frequency" value="1.0"/>
 		<remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
-		<!--remap from="odom" to="$(arg odom_combined_topic)"/-->
-		<remap from="map" to="$(arg map_topic)"/>
+		
 		<remap from="odom" to="odom_combined"/>
+		<remap from="base_scan" to="decoy"/>
+
+		<remap from="map" to="$(arg map_topic)"/>
 	</node>
 
 	<node pkg="rosbag" type="record" name="rosbag_move_base" args="record -o $(arg rosbag_prefix_url)/navigation/move_base $(arg cmd_vel_topic) $(arg odom_combined_topic)" output="screen" if="$(arg rosbag_enabled)"/>
