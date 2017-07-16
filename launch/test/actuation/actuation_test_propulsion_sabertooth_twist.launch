@@ -1,5 +1,0 @@
-<launch>
-
-    <include file="$(find nautonomous_launch)/launch/test/actuation/actuation_test_template.launch"/>
-
-</launch>
