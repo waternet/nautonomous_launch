@@ -7,4 +7,5 @@
         <rosparam file="$(arg gps_config_file)" command="load"/>
 
     </node>
+    
 </launch>

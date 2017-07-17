@@ -1,7 +1,4 @@
 <launch>
-
-	<arg name="rosbag_enabled" default="false"/>
-	<arg name="rosbag_prefix_url" default="/tmp"/>
 	
 	<arg name="cmd_vel_topic" default="cmd_vel_topic"/>
 
@@ -17,8 +14,6 @@
 		<remap from="left_motor_topic" to="$(arg left_motor_topic)"/>
 		<remap from="right_motor_topic" to="$(arg right_motor_topic)"/>
 	</node>
-
-	<node pkg="rosbag" type="record" name="rosbag_propulsion_differential" args="record -o $(arg rosbag_prefix_url)/propulsion/differential $(arg cmd_vel_topic) $(arg left_motor_topic) $(arg right_motor_topic)" output="screen" if="$(arg rosbag_enabled)"/>
 
 </launch>
 

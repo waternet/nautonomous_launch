@@ -13,6 +13,10 @@
 	<!-- sensors/gps -->
 	<arg name="gps_fix_topic" value="/sensor/gps/fix"/>
     <arg name="gps_fix_velocity_topic" value="/sensor/gps/fix_velocity"/>
+	<!-- sensor/lidar -->
+	<arg name="scan_topic" value="/base_scan"/>
+	<!-- sensor/pointcloud -->
+	<arg name="pointcloud_topic" value="/sensor/scan/point_cloud"/>
 
 	<!-- state -->
 
@@ -51,7 +55,7 @@
 	<arg name="gps_group" default="true"/>
 	<arg name="imu_group" default="true"/>
 	<arg name="camera_group" default="false"/>
-	<arg name="lidar_group" default="false"/>
+	<arg name="lidar_group" default="true"/>
 	
 	<group ns="sensor" if="$(arg sensor_group)">
 
@@ -72,7 +76,10 @@
 
 		<!-- LiDAR -->
 		<group ns="lidar" if="$(arg lidar_group)">
-
+			<include file="$(find nautonomous_launch)/launch/sensor/lidar/pointcloud_to_laserscan.launch">
+				<arg name="scan_topic" default="$(arg scan_topic)"/>
+				<arg name="pointcloud_topic" default="$(arg pointcloud_topic)"/>
+			</include>
 		</group>
 
 	</group>
@@ -129,6 +136,7 @@
 	<arg name="coordinator_group" default="true"/>
 	<arg name="coordinate_simulate_group" default="false"/> 
 	<arg name="operation_name_param"/>	
+	<arg name="map_image_name_param" default="amsterdam"/>
 	
 	<group ns="navigation" if="$(arg navigation_group)">
 		
@@ -144,6 +152,7 @@
 			<!-- Map Cropper -->
 			<group ns="cropper" if="$(arg map_cropper_group)">
 				<include file="$(find nautonomous_map_cropper)/launch/passive_map_cropper.launch">
+					<arg name="map_image_name_param" value="$(arg map_image_name_param)"/>
 					<arg name="negate_image_param" value="$(arg negate_image_param)"/>
 				</include>
 			</group>
@@ -156,10 +165,10 @@
 		</group>
 
 		<group ns="costmap" if="$(arg costmap_group)">
-			<include file="$(find nautonomous_launch)/launch/navigation/costmap/costmap.launch">
-				<arg name="base_scan_topic" value="$(arg base_scan_topic)"/>
+			<include file="$(find nautonomous_launch)/launch/navigation/costmap/costmap_2d.launch">
+				<arg name="scan_topic" value="$(arg scan_topic)"/>
 				<arg name="map_topic" value="$(arg map_topic)"/>
-			</group>
+			</include>
 		</group>
 
 		<!-- Navigation move base -->
