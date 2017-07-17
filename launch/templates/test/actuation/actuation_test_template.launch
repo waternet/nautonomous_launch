@@ -12,4 +12,7 @@
 
 	</include>
 
+    <node name="rviz_visualizer" pkg="rviz" type="rviz" args="-d $(find nautonomous_configuration)/config/rviz/rosbag_handhaving.rviz"/>
+
+
 </launch>
