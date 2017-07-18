@@ -13,6 +13,7 @@
 		<rosparam file="$(find nautonomous_configuration)/config/navigation/planner/base_local_planner_params.yaml" command="load" />
 		
 		<param name="controller_frequency" value="10.0"/>
+		<param name="planner_frequency" value="10.0"/>
 		
 		<remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
 		<remap from="map" to="$(arg map_topic)"/>
