@@ -14,9 +14,9 @@
 	<arg name="gps_fix_topic" default="/sensor/gps/fix"/>
     <arg name="gps_fix_velocity_topic" default="/sensor/gps/fix_velocity"/>
 	<!-- sensor/lidar -->
-	<arg name="scan_topic" default="/base_scan"/>
+	<arg name="scan_topic" default="/sensor/lidar/scan"/>
 	<!-- sensor/pointcloud -->
-	<arg name="pointcloud_topic" default="/sensor/scan/point_cloud"/>
+	<arg name="pointcloud_topic" default="/sensor/lidar/point_cloud"/>
 
 	<!-- state -->
 
@@ -76,9 +76,12 @@
 
 		<!-- LiDAR -->
 		<group ns="lidar" if="$(arg lidar_group)">
+			<include file="$(find nautonomous_launch)/launch/sensor/lidar/velodyne.launch">
+				<arg name="pointcloud_topic" value="$(arg pointcloud_topic)"/>
+			</include>
 			<include file="$(find nautonomous_launch)/launch/sensor/lidar/pointcloud_to_laserscan.launch">
 				<arg name="scan_topic" default="$(arg scan_topic)"/>
-				<arg name="pointcloud_topic" default="$(arg pointcloud_topic)"/>
+				<arg name="pointcloud_topic" value="$(arg pointcloud_topic)"/>
 			</include>
 		</group>
 
@@ -165,17 +168,18 @@
 
 		</group>
 
-		<group ns="costmap" if="$(arg costmap_group)">
+		<!--group ns="costmap" if="$(arg costmap_group)">
 			<include file="$(find nautonomous_launch)/launch/navigation/costmap/costmap_2d.launch">
 				<arg name="scan_topic" value="$(arg scan_topic)"/>
 				<arg name="map_topic" value="$(arg map_topic)"/>
 			</include>
-		</group>
+		</group-->
 
 		<!-- Navigation move base -->
 		<group ns="planner" if="$(arg planner_group)">
 
 			<include file="$(find nautonomous_launch)/launch/navigation/planner/move_base.launch">
+				<arg name="scan_topic" value="$(arg scan_topic)"/>
 				<arg name="map_topic" value="$(arg map_topic)"/>
 			</include>
 
