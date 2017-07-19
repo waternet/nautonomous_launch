@@ -6,7 +6,7 @@
         <arg name="routing_group" value="true"/>
         <arg name="map_group" value="true"/>
         <arg name="negate_image_param" value="false"/>
-        <arg name="navigate_group" value="false"/> 
+        <arg name="planner_group" value="false"/> 
         <arg name="coordinator_group" value="true"/>
         <arg name="coordinate_simulate_group" value="true"/> 
         <arg name="operation_name_param" value="coenhaven"/>	
