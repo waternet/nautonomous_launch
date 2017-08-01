@@ -31,6 +31,9 @@
 	<!-- actuation -->
 	<arg name="actuation_group" default="true"/>
 
+	<!-- message authentication -->
+	<arg name="message_authentication_group" default="true"/>
+
 	<!-- TOPICS -->
 
 	<!-- simulate -->
@@ -73,6 +76,8 @@
 	<arg name="route_service" default="/navigation/routing/vaarkaart/route"/>
 	<arg name="crop_service" default="/navigation/map/cropper/crop"/>
 	<arg name="load_service" default="/navigation/map/server/load"/>
+	<arg name="msg_auth_service" default="/msgs/authentication/authenticate"/>
+	<arg name="msg_mac_generation_service" default="/msgs/authentication/generate_mac"/>
 
 	<!-- ACTION SERVERS -->
 	<arg name="coordinator_mission_action_server" default="/mission/coordinator/server"/>
@@ -88,6 +93,7 @@
 
 	<arg name="negate_image_param" default="false"/>
 
+	<!-- INCLUDES PER GROUP -->
 	<group if="$(arg simulate_group)">
 
 		<include file="$(find nautonomous_pose_simulator)/launch/nautonomous_propulsion_simulator.launch">
@@ -284,12 +290,22 @@
 		<!--include file="$(find nautonomous_launch)/launch/server/rosauth.launch"/-->
 		<!--include file="$(find nautonomous_launch)/launch/server/rosbridge.launch"/-->
 		<include file="$(find nautonomous_webserver_logging)/launch/logger_server.launch">
-			<arg name="utm_fix_topic" 				value="$(arg utm_fix_topic)"/>
-			<arg name="imu_topic" 					value="$(arg imu_topic)"/>
-			<arg name="odom_combined_topic" 		value="$(arg odom_combined_topic)"/>
-			<arg name="actuation_watchdog_topic" 	value="$(arg actuation_watchdog_topic)"/>
+			<arg name="gps_fix_topic" 						value="$(arg gps_fix_topic)"/>
+			<arg name="imu_topic" 							value="$(arg imu_topic)"/>
+			<arg name="odom_combined_topic" 				value="$(arg odom_combined_topic)"/>
+			<arg name="actuation_watchdog_topic" 			value="$(arg actuation_watchdog_topic)"/>
+			<arg name="msg_auth_service" 					value="$(arg msg_auth_service)"/>
+			<arg name="msg_mac_generation_service"			value="$(arg msg_mac_generation_service)"/>
 		</include>
 
+	</group>
+
+	<group if="$(arg message_authentication_group)">
+		<include file="$(find nautonomous_msgs_authentication)/launch/msg_authentication.launch">
+			<arg name="rosbag_prefix_url"					value="$(arg rosbag_prefix_url)"/>
+			<arg name="msg_auth_service" 					value="$(arg msg_auth_service)"/>
+			<arg name="msg_mac_generation_service"			value="$(arg msg_mac_generation_service)"/>
+		</include>
 	</group>
 	
 </launch>
