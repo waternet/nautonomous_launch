@@ -23,6 +23,7 @@
     <arg name="coordinate_simulate_group" default="false"/>
 
     <arg name="webserver_group" default="false"/>
+    <arg name="message_authentication_group" default="false"/>
 
     <arg name="operation_name_param" default="coenhaven_dry_dock"/>
 
@@ -57,6 +58,7 @@
 	<arg name="coordinate_simulate_group" value="$(arg coordinate_simulate_group)"/> 
         
         <arg name="webserver_group" value="$(arg webserver_group)"/>
+        <arg name="message_authentication_group" default="true"/>
 	
 	<arg name="operation_name_param" value="$(arg operation_name_param)"/>
         <arg name="test_map_param" default="$(arg test_map_param)"/>
