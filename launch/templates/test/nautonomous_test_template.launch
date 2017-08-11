@@ -2,6 +2,7 @@
     <arg name="sensors_group" default="false"/>
     <arg name="gps_group" default="false"/>
     <arg name="imu_group" default="false"/>
+    <arg name="scan_group" default="false"/>
 
     <arg name="actuation_group" default="false"/>
     <arg name="actuation_serial_available_param" default="true"/>
@@ -22,17 +23,21 @@
     <arg name="coordinate_simulate_group" default="false"/>
 
     <arg name="webserver_group" default="false"/>
+    <arg name="message_authentication_group" default="false"/>
 
     <arg name="operation_name_param" default="coenhaven_dry_dock"/>
 
     <arg name="coordinate_simulate_group" default="false"/>
-    
+
+    <arg name="test_map_param" default="false"/>
+
 
     <include file="$(find nautonomous_launch)/launch/templates/nautonomous_template.launch">
 
         <arg name="sensors_group" value="$(arg sensors_group)"/>
         <arg name="gps_group" value="$(arg gps_group)"/>
         <arg name="imu_group" value="$(arg imu_group)"/>
+        <arg name="scan_group" value="$(arg scan_group)"/>
 
         <arg name="actuation_group" value="$(arg actuation_group)"/>
         <arg name="actuation_serial_available_param" value="$(arg actuation_serial_available_param)"/>
@@ -53,8 +58,10 @@
 	<arg name="coordinate_simulate_group" value="$(arg coordinate_simulate_group)"/> 
         
         <arg name="webserver_group" value="$(arg webserver_group)"/>
+        <arg name="message_authentication_group" default="true"/>
 	
 	<arg name="operation_name_param" value="$(arg operation_name_param)"/>
+        <arg name="test_map_param" default="$(arg test_map_param)"/>
 
      </include>
 </launch>
