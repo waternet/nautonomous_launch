@@ -34,7 +34,7 @@
 	<arg name="map_data_topic" default="/navigation/map/server/map_data"/>
 	<arg name="map_metadata_topic" default="/navigation/map/server/map_metadata"/>
 	<arg name="map_topic" default="/navigation/map/server/map"/>
-
+	<arg name="map_center_topic" default="/navigation/map/server/map_center"/>
 
 	<!-- actuation -->
 	<arg name="left_motor_topic" default="/actuation/propulsion/left"/>
@@ -80,7 +80,7 @@
 				<arg name="pointcloud_topic" value="$(arg pointcloud_topic)"/>
 			</include>
 			<include file="$(find nautonomous_launch)/launch/sensor/lidar/pointcloud_to_laserscan.launch">
-				<arg name="scan_topic" default="$(arg scan_topic)"/>
+				<arg name="scan_topic" value="$(arg scan_topic)"/>
 				<arg name="pointcloud_topic" value="$(arg pointcloud_topic)"/>
 			</include>
 		</group>
@@ -100,7 +100,8 @@
 		<!-- Location -->
 		<group ns="location" if="$(arg location_group)">
 			<include file="$(find nautonomous_pose_utm)/launch/utm_adapter.launch">
-				<arg name="fix" default="$(arg gps_fix_topic)"/>
+				<arg name="gps_fix_topic" value="$(arg gps_fix_topic)"/>
+				<arg name="map_center_topic" value="$(arg map_center_topic)"/>
 			</include>
 		</group> 
 
@@ -163,7 +164,14 @@
 
 			<!-- Map Server -->
 			<group ns="server" if="$(arg map_server_group)">
-				<include file="$(find nautonomous_map_server)/launch/nautonomous_map_server.launch" />
+				<include file="$(find nautonomous_map_server)/launch/nautonomous_map_server.launch" >
+					<arg name="map_data_topic" value="$(arg map_data_topic)"/>
+					<arg name="map_metadata_topic" value="$(arg map_metadata_topic)"/>
+					<arg name="map_topic" value="$(arg map_topic)"/>
+					<arg name="map_center_topic" value="$(arg map_center_topic)"/>
+
+					<arg name="load_service" value="$(arg load_service)"/>
+				</include>
 			</group>
 
 		</group>
