@@ -203,6 +203,8 @@
 				<arg name="map_enabled" 	value="$(arg map_group)"/>
 				<arg name="planner_enabled" value="$(arg planner_group)"/> 
 
+				<arg name="map_center_topic" value="$(arg map_center_topic)"/>
+
 				<arg name="route" 	value="$(arg route_service)"/>
 				<arg name="crop" 	value="$(arg crop_service)"/>
 				<arg name="load" 	value="$(arg load_service)"/>
