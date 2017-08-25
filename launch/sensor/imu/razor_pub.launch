@@ -6,6 +6,7 @@
 
         <rosparam file="$(arg razor_config_file)" command="load"/>
 
+
     </node>
 
 </launch>

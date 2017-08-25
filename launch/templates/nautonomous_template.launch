@@ -9,7 +9,7 @@
 	<!-- sensors -->
 
 	<!-- sensors/imu -->
-	<arg name="imu_topic" default="/sensor/imu/9dof"/>
+	<arg name="imu_topic" default="/sensor/imu/imu"/>
 	<!-- sensors/gps -->
 	<arg name="gps_fix_topic" default="/sensor/gps/fix"/>
     <arg name="gps_fix_velocity_topic" default="/sensor/gps/fix_velocity"/>
@@ -181,6 +181,7 @@
 			<include file="$(find nautonomous_launch)/launch/navigation/planner/move_base.launch">
 				<arg name="scan_topic" 	value="$(arg scan_topic)"/>
 				<arg name="map_topic" 	value="$(arg map_topic)"/>
+				<arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
 			</include>
 
 		</group>
