@@ -101,6 +101,7 @@
 		<group ns="location" if="$(arg location_group)">
 			<include file="$(find nautonomous_pose_utm)/launch/utm_adapter.launch">
 				<arg name="gps_fix_topic" value="$(arg gps_fix_topic)"/>
+				<arg name="utm_fix_topic" default="$(arg utm_fix_topic)"/>
 				<arg name="map_center_topic" value="$(arg map_center_topic)"/>
 			</include>
 		</group> 
